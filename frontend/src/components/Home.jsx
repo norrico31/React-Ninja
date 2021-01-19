@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import BlogList from '../BlogList'
 
 const Home = () => {
     const [blogs, setBlogs] = useState([
@@ -6,15 +7,25 @@ const Home = () => {
         { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
         { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
     ])
-    const outputBlogs = blogs && blogs.map(blog => (
-        <div className="blog-preview" key={blog.id}>
-            <h2>{blog.title}</h2>
-            <p>Written by {blog.author}</p>
-        </div>
-    ))
+    const [name, setName] = useState('gerald')
+    const onHandleDelete = blogId => {
+        setBlogs(prevBlog => prevBlog.filter(blog => blog.id !== blogId))
+    }
+    
+    useEffect(() => {
+        console.log('useEffect ran')
+        console.log(blogs)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    })
+
     return (
         <div className="home">
-            {outputBlogs}
+            <div className="blog-list">
+                <h2>All Blogs</h2>
+                <BlogList blogs={blogs} onHandleDelete={onHandleDelete}/>
+                <button onClick={() => setName('norrico')}>Change name</button>
+                <p>{name}</p>
+            </div>
         </div>
     )
 }
