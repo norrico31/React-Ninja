@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Home from './components/Home'
 import CreateBlog from './components/CreateBlog'
 import BlogDetails from './components/BlogDetails'
+import NotFound from './components/NotFound'
 
 const App = () => {
     return (
@@ -19,6 +20,9 @@ const App = () => {
                         </Route>
                         <Route path='/blogs/:blogId'>
                             <BlogDetails />
+                        </Route>
+                        <Route path='*'>
+                            <NotFound />
                         </Route>
                     </Switch>
                 </div>
