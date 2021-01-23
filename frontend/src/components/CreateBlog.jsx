@@ -4,19 +4,30 @@ const CreateBlog = () => {
     const [blog, setBlog] = useState({
         title: '',
         body: '',
-        author: ''
+        author: '' || 'norrico'
     })
+    const [isPending, setIsPending] = useState(false)
     const onHandleInput = e => {
-        setBlog({ ...blog, [e.target.name]: e.target.value })
+        setBlog(prevBlog => ({ ...prevBlog, [e.target.name]: e.target.value}))
     }
     const onHandleSubmit = e => {
         e.preventDefault()
-        console.log(blog)
-        setBlog({
-            title: '',
-            body: '',
-            author: ''
-        })
+        setIsPending(true)
+        fetch('http://localhost:8000/blogs', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(blog)
+        }).then(() => {
+            setBlog({
+                title: '',
+                body: '',
+                author: ''
+            })
+            setIsPending(false)
+            console.log('new blog added')
+        })    
     }
     return (
         <div className="create">
@@ -31,7 +42,8 @@ const CreateBlog = () => {
                     <option value="norrico">Norrico</option>
                     <option value="gerald">Gerald</option>
                 </select>
-                <button type="submit">Add Blog</button>
+                {!isPending && <button type="submit">Add Blog</button>}
+                {isPending && <button type="submit" disabled>Add Blog...</button>}
             </form>
         </div>
     )
