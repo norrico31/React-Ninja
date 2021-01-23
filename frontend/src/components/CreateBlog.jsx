@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 
 const CreateBlog = () => {
     const [blog, setBlog] = useState({
@@ -6,6 +7,7 @@ const CreateBlog = () => {
         body: '',
         author: '' || 'norrico'
     })
+    const history = useHistory()
     const [isPending, setIsPending] = useState(false)
     const onHandleInput = e => {
         setBlog(prevBlog => ({ ...prevBlog, [e.target.name]: e.target.value}))
@@ -27,6 +29,7 @@ const CreateBlog = () => {
             })
             setIsPending(false)
             console.log('new blog added')
+            history.push('/')
         })    
     }
     return (
